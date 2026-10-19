@@ -21,6 +21,7 @@ import { analyticsRoutes } from "./routes/analytics.js";
 import { settingsRoutes } from "./routes/settings.js";
 import { seedIfEmpty } from "./seed.js";
 import { embeddingStatus, warmup as warmEmbeddings } from "./services/embeddings.js";
+import { warmJobVectors } from "./services/recommend.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
@@ -173,6 +174,13 @@ app.use((err, req, res, next) => {
 initDb(config);
 seedIfEmpty();
 warmEmbeddings(); // load the local model in the background
+// Cache vectors for every open job so the first AI request is fast (and the
+// free Render instance has them ready after a cold start).
+warmJobVectors()
+  .then((count) => {
+    if (count > 0) console.log(`[embeddings] cached ${count} job vectors.`);
+  })
+  .catch((err) => console.error(`[embeddings] job warmup failed: ${err.message}`));
 
 const server = app.listen(config.port, () => {
   console.log("");

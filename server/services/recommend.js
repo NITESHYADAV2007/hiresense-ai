@@ -1,5 +1,7 @@
 // Rank open jobs for a resume. Uses semantic embeddings when available and
 // falls back to the TF-IDF scorer; skill overlap is always rule-based.
+import { getDb } from "../db.js";
+import { serializeJob } from "./application.js";
 import {
   EMBEDDING_MODEL,
   cosineSimilarity,
@@ -90,4 +92,18 @@ export async function rankJobs(jobs, resumeText, limit = 10) {
       required_skills: (job.required_skills || []).slice(0, 8),
     })),
   };
+}
+
+/**
+ * Embed every open job once and persist the vectors. Called at server startup
+ * so the first public recommendation request does not pay the batch cost.
+ */
+export async function warmJobVectors() {
+  const jobs = getDb()
+    .prepare("SELECT * FROM jobs WHERE status = 'open' ORDER BY created_at DESC")
+    .all()
+    .map((row) => serializeJob(row));
+  if (jobs.length === 0) return 0;
+  const vectors = await jobVectors(jobs);
+  return vectors ? vectors.size : 0;
 }
