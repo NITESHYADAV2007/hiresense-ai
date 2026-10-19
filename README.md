@@ -7,6 +7,13 @@ apply — all from one Node.js app.
 Built with **Node.js + Express**, **SQLite** (`node:sqlite`), and a **vanilla
 HTML/CSS/JS** frontend. No Python, no bundler, no external AI API key.
 
+## Live demo
+
+**https://hiresense-ai-production-56b9.up.railway.app**
+
+Deployed on Railway; source code on GitHub at
+[niteshyadav2007/hiresense-ai](https://github.com/niteshyadav2007/hiresense-ai).
+
 ---
 
 ## Features
@@ -160,15 +167,27 @@ profile email. Recruiters never see the profile cookie.
 │   ├── *.html                 # Landing, careers, apply, profile, recruiter pages
 │   ├── css/custom.css         # Theme tokens incl. dark mode
 │   └── js/                    # Pages, layout, UI, charts, command palette
+├── .nvmrc                     # Node 24 for hosted builds
 ├── render.yaml                # Render Blueprint (one-click deploy)
 ├── instance/                  # SQLite database (runtime, gitignored)
 └── uploads/                   # Resume PDFs (runtime, gitignored)
 ```
 
-## Deploy to GitHub + Render
+## Deploy to GitHub + Railway/Render
 
 GitHub Pages **cannot** run this app — it needs Node.js, SQLite, and file
-uploads. Use GitHub for the repository and Render for the live server.
+uploads. Use GitHub for the repository and a Node host (the live demo uses
+Railway) for the server.
+
+### Current live deployment (Railway)
+
+- Project/service: `hiresense-ai`
+- Public URL: <https://hiresense-ai-production-56b9.up.railway.app>
+- Redeploy after changes: `railway up --ci --service hiresense-ai` (run `railway login` first)
+- Environment variables: `SECRET_KEY`, `SESSION_COOKIE_SECURE=1`, `TRUST_PROXY=1`
+- Railway's filesystem is ephemeral unless a volume is attached, so the SQLite
+  database and uploads reset on redeploy/restart; the app re-seeds the 100 jobs
+  on boot.
 
 ### 1. Push to GitHub
 
