@@ -1,0 +1,26 @@
+{
+  "name": "hiresense-ai",
+  "version": "2.0.0",
+  "private": true,
+  "description": "HireSense AI - recruitment platform. Node.js backend + vanilla JS frontend.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "prestart": "node server/seed_jobs.js",
+    "start": "node server/server.js",
+    "predev": "node server/seed_jobs.js",
+    "dev": "node --watch server/server.js",
+    "seed": "node server/seed.js",
+    "seed:jobs": "node server/seed_jobs.js",
+    "smoke": "node server/test/smoke.mjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.1",
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "multer": "^2.0.1",
+    "pdfjs-dist": "^5.3.31"
+  }
+}

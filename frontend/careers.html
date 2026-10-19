@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Careers · HireSense AI</title>
+  <meta name="description" content="Browse open positions and apply with your resume." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236755DC'/><text x='50' y='68' font-size='48' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'>HS</text></svg>" />
+  <script src="/js/theme.js"></script>
+  <script src="/js/tailwind.js"></script>
+  <script src="/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="bg-background font-body text-on-surface-variant antialiased">
+  <div data-public-nav></div>
+
+  <main>
+    <!-- Hero -->
+    <section class="border-b border-outline-variant bg-surface-container-lowest">
+      <div class="relative overflow-hidden">
+        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div class="absolute -top-24 left-1/4 h-72 w-72 rounded-full bg-primary/15 blur-3xl"></div>
+          <div class="absolute -bottom-32 right-1/4 h-96 w-96 rounded-full bg-secondary/10 blur-3xl"></div>
+        </div>
+        <div class="relative mx-auto max-w-content px-4 py-14 sm:px-6 lg:px-8">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-primary-fixed px-3 py-1.5 text-label-md text-on-primary-fixed-variant">
+            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">diversity_3</span>
+            We are hiring
+          </span>
+          <h1 class="mt-4 font-headline-lg text-headline-lg text-on-surface">Find Your Next Opportunity</h1>
+          <p class="mt-3 max-w-2xl text-body-lg leading-7 text-on-surface-variant">
+            Explore open roles and apply in minutes. Upload your resume and our team
+            will review your application — every submission is read by a person.
+          </p>
+          <form id="hero-search" class="mt-7 flex max-w-2xl flex-col gap-3 sm:flex-row" role="search">
+            <div class="relative flex-1">
+              <label for="q" class="sr-only">Search jobs</label>
+              <span class="material-symbols-outlined pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[20px] text-on-surface-variant" aria-hidden="true">search</span>
+              <input id="q" name="q" type="search" placeholder="Search by title, skill, or keyword…"
+                     class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-3 pl-11 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
+            </div>
+            <button type="submit" class="rounded-lg bg-primary-container px-6 py-3 text-body-md font-semibold text-on-primary shadow-sm hover:bg-primary">Search jobs</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI resume matcher -->
+    <section class="mx-auto max-w-content px-4 pt-8 sm:px-6 lg:px-8">
+      <div class="overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary-fixed/70 via-surface-container-lowest to-surface-container-lowest p-5 shadow-sm sm:p-6">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex items-start gap-3">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-container text-on-primary">
+              <span class="material-symbols-outlined" aria-hidden="true">psychology</span>
+            </span>
+            <div>
+              <h2 class="font-headline-sm text-headline-sm text-on-surface">Let AI find your best-fit roles</h2>
+              <p class="mt-1 max-w-xl text-body-md text-on-surface-variant">
+                Upload your resume (PDF, max 5 MB). We compare it with every open role and rank
+                the closest matches — no account needed.
+              </p>
+            </div>
+          </div>
+          <form id="resume-match-form" class="flex w-full flex-col gap-2 sm:flex-row lg:w-auto" novalidate>
+            <input id="resume-match-file" name="resume" type="file" accept="application/pdf,.pdf" class="sr-only" />
+            <label for="resume-match-file"
+                   class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-2.5 text-body-md font-semibold text-on-surface hover:bg-surface-container-low">
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">upload_file</span>
+              <span id="resume-file-label" class="max-w-[12rem] truncate">Choose PDF</span>
+            </label>
+            <button id="resume-match-btn" type="submit"
+                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-container px-5 py-2.5 text-body-md font-semibold text-on-primary shadow-sm hover:bg-primary disabled:opacity-60">
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">auto_awesome</span>
+              Find my jobs
+            </button>
+          </form>
+        </div>
+        <p id="resume-match-error" class="mt-3 hidden text-body-sm font-medium text-danger" role="alert"></p>
+        <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-label-sm text-on-surface-variant">
+          <span class="inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]" aria-hidden="true">lock</span>
+            Your resume is used only for matching and is not stored.
+          </span>
+          <a href="/profile" class="inline-flex items-center gap-1 font-semibold text-primary hover:underline">
+            Create a profile to save matches &amp; track applications
+            <span class="material-symbols-outlined text-[14px]" aria-hidden="true">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI match results -->
+    <section id="match-results" class="mx-auto hidden max-w-content px-4 pt-8 sm:px-6 lg:px-8">
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <div class="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 class="font-headline-sm text-headline-sm text-on-surface">Your AI matches</h2>
+          <p id="match-meta" class="text-body-sm text-on-surface-variant" aria-live="polite"></p>
+        </div>
+        <div id="match-list" class="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3"></div>
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <button id="match-show-all" type="button"
+                  class="hidden rounded-lg border border-outline-variant bg-surface-container-low px-4 py-2 text-body-md font-semibold text-on-surface hover:bg-surface-container-lowest">
+            Show all matches
+          </button>
+          <a href="/profile" class="ml-auto text-body-md font-semibold text-primary hover:underline">
+            Save these matches to a profile →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters + results -->
+    <section class="mx-auto max-w-content px-4 py-10 sm:px-6 lg:px-8">
+      <form id="filters" class="grid gap-3 rounded-xl border border-outline-variant bg-surface-container-lowest p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <label for="filter-keyword" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Keyword</label>
+          <input id="filter-keyword" name="q" type="search" placeholder="e.g. engineer"
+                 class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
+        </div>
+        <div>
+          <label for="filter-department" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Department</label>
+          <select id="filter-department" name="department"
+                  class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+            <option value="">All departments</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-location" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Location</label>
+          <select id="filter-location" name="location"
+                  class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+            <option value="">All locations</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-type" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Employment type</label>
+          <select id="filter-type" name="employment_type"
+                  class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+            <option value="">All types</option>
+          </select>
+        </div>
+        <div class="sm:col-span-2 lg:col-span-4">
+          <button id="clear-filters" type="button"
+                  class="rounded-lg border border-outline-variant bg-surface-container-low px-4 py-2 text-body-md font-semibold text-on-surface hover:bg-surface-container-lowest">
+            Clear filters
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-6 flex items-baseline justify-between">
+        <h2 class="font-headline-sm text-headline-sm text-on-surface">Open positions</h2>
+        <p id="result-count" class="text-body-md text-on-surface-variant" aria-live="polite"></p>
+      </div>
+
+      <div id="job-results" class="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3"></div>
+      <div id="pagination" class="mt-8"></div>
+    </section>
+  </main>
+
+  <div data-public-footer></div>
+  <script type="module" src="/js/pages/careers.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# Render Blueprint — one-click deploy for HireSense AI.
+# In Render: New + > Blueprint > connect this repo, or create a Web Service manually.
+services:
+  - type: web
+    name: hiresense-ai
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.18.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SESSION_COOKIE_SECURE
+        value: "1"
+      - key: TRUST_PROXY
+        value: "1"
+
+      # ---------------------------------------------------------------------
+      # Persistent storage (optional, requires a paid Render disk).
+      # The free plan has an ephemeral filesystem: the SQLite database and
+      # uploaded resumes reset whenever the service restarts or redeploys.
+      # With a disk, uncomment everything below and attach the disk.
+      # ---------------------------------------------------------------------
+      # - key: DATABASE_PATH
+      #   value: /var/data/hiresense.db
+      # - key: UPLOAD_FOLDER
+      #   value: /var/data/uploads
+    # disk:
+    #   name: hiresense-data
+    #   mountPath: /var/data
+    #   sizeGB: 1

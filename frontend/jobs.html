@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Job Openings · HireSense AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236755DC'/><text x='50' y='68' font-size='48' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'>HS</text></svg>" />
+  <script src="/js/theme.js"></script>
+  <script src="/js/tailwind.js"></script>
+  <script src="/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="bg-background font-body text-on-surface-variant antialiased">
+  <div data-page-content>
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h1 class="font-headline-lg text-headline-lg text-on-surface">Job Openings</h1>
+        <p class="mt-1 text-body-md text-on-surface-variant"><span id="total-count">0</span> jobs total</p>
+      </div>
+      <a href="/jobs/new"
+         class="inline-flex items-center gap-2 rounded-lg bg-primary-container px-4 py-2.5 text-body-md font-semibold text-on-primary shadow-sm hover:bg-primary">
+        <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
+        Create Job
+      </a>
+    </div>
+
+    <!-- Filters -->
+    <form id="filters" class="mt-6 grid gap-3 rounded-xl border border-outline-variant bg-surface-container-lowest p-4 shadow-sm md:grid-cols-2 xl:grid-cols-5">
+      <div>
+        <label for="search" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Search title</label>
+        <div class="relative">
+          <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">search</span>
+          <input id="search" name="search" type="search" placeholder="Job title…"
+                 class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2 pl-9 pr-3 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
+        </div>
+      </div>
+      <div>
+        <label for="status" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Status</label>
+        <select id="status" name="status" class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+          <option value="">All statuses</option>
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+          <option value="archived">Archived</option>
+        </select>
+      </div>
+      <div>
+        <label for="department" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Department</label>
+        <select id="department" name="department" class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+          <option value="">All departments</option>
+        </select>
+      </div>
+      <div>
+        <label for="location" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Location</label>
+        <select id="location" name="location" class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+          <option value="">All locations</option>
+        </select>
+      </div>
+      <div>
+        <label for="sort" class="mb-1.5 block text-label-md uppercase tracking-wide text-on-surface-variant">Sort by</label>
+        <select id="sort" name="sort" class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="title_asc">Title A–Z</option>
+          <option value="title_desc">Title Z–A</option>
+        </select>
+      </div>
+    </form>
+
+    <!-- Table -->
+    <div class="mt-5 overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-sm">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-body-md">
+          <thead class="border-b border-outline-variant bg-surface-container-low text-label-md uppercase tracking-wide text-on-surface-variant">
+            <tr>
+              <th scope="col" class="px-5 py-3">Job Title</th>
+              <th scope="col" class="px-5 py-3">Department</th>
+              <th scope="col" class="px-5 py-3">Location</th>
+              <th scope="col" class="px-5 py-3">Type</th>
+              <th scope="col" class="px-5 py-3">Status</th>
+              <th scope="col" class="px-5 py-3">Applicants</th>
+              <th scope="col" class="px-5 py-3">Created</th>
+              <th scope="col" class="px-5 py-3 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="jobs-body"></tbody>
+        </table>
+      </div>
+      <div id="pagination" class="border-t border-outline-variant px-5 py-4"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/pages/jobs.js"></script>
+</body>
+</html>

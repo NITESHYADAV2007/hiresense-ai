@@ -1,0 +1,232 @@
+/* HireSense AI global styles layered on top of Tailwind (M3 look). */
+
+/* ---------------- theme tokens ---------------- */
+
+:root {
+  --chart-grid: #e5e7ef;
+  --chart-label: #667085;
+  --chart-strong: #182230;
+  --chart-surface: #ffffff;
+  --ring-track: #e6eeff;
+  --skeleton-a: #e6eeff;
+  --skeleton-b: #f3f6ff;
+  --scroll-thumb: #c9c4d6;
+  --focus-ring: #6755dc;
+  --backdrop: rgba(18, 28, 42, 0.45);
+  --drop-target-bg: #e4dfff;
+  --page-bg: #f8f9ff;
+}
+
+html.dark {
+  color-scheme: dark;
+  --chart-grid: #263149;
+  --chart-label: #94a1bd;
+  --chart-strong: #e7ebf6;
+  --chart-surface: #161c2c;
+  --ring-track: #2b3650;
+  --skeleton-a: #1c2438;
+  --skeleton-b: #253049;
+  --scroll-thumb: #3a4560;
+  --focus-ring: #a99bff;
+  --backdrop: rgba(3, 6, 14, 0.65);
+  --drop-target-bg: #2b2450;
+  --page-bg: #0e1322;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background: rgba(103, 85, 220, 0.28);
+}
+
+/* Material Symbols baseline styling (matches the design reference). */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-size: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  user-select: none;
+}
+.material-symbols-outlined.filled {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+/* Subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 9999px;
+}
+
+/* Consistent, visible focus indicators for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Loading skeletons */
+.hs {
+  background: linear-gradient(90deg, var(--skeleton-a) 25%, var(--skeleton-b) 50%, var(--skeleton-a) 75%);
+  background-size: 200% 100%;
+  animation: hs-shimmer 1.3s ease-in-out infinite;
+  border-radius: 8px;
+}
+@keyframes hs-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Toast enter animation */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.toast-enter { animation: toast-in .18s ease-out; }
+
+/* Modal backdrop */
+.modal-backdrop { background: var(--backdrop); backdrop-filter: blur(2px); }
+
+/* Drag-and-drop pipeline cards */
+.dragging { opacity: .45; transform: rotate(1.5deg); }
+.drop-target { background: var(--drop-target-bg) !important; border-color: var(--focus-ring) !important; }
+
+/* Score ring helper */
+.score-ring { transform: rotate(-90deg); }
+
+/* Thin scrollbars for internal panels */
+.thin-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.thin-scroll::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 8px; }
+.thin-scroll::-webkit-scrollbar-track { background: transparent; }
+
+/* Landing hero visual */
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(103, 85, 220, .08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(103, 85, 220, .08) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 55%, transparent 100%);
+}
+html.dark .hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(169, 155, 255, .09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(169, 155, 255, .09) 1px, transparent 1px);
+}
+
+/* Page content fade-in when a shell mounts. */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+#app-main > [data-page-content] { animation: page-in .28s ease-out both; }
+
+/* Charts fade/rise in when they finish rendering. */
+@keyframes chart-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.chart-in { animation: chart-in .45s ease-out both; }
+
+/* ============================================================
+   Dark theme: remap the Material-3 token utility classes.
+   These overrides are intentionally scoped to html.dark so the
+   light theme stays exactly as designed.
+   ============================================================ */
+
+html.dark body { background-color: var(--page-bg); color: #c6cddd; }
+
+/* -- surfaces -- */
+html.dark .bg-background { background-color: var(--page-bg); }
+html.dark .bg-surface,
+html.dark .bg-surface-bright { background-color: #161c2c; }
+html.dark .bg-surface-dim { background-color: #131a2b; }
+html.dark .bg-surface-container-lowest { background-color: #161c2c; }
+html.dark .bg-surface-container-low { background-color: #1b2334; }
+html.dark .bg-surface-container { background-color: #212b40; }
+html.dark .bg-surface-container-high { background-color: #27334b; }
+html.dark .bg-surface-container-highest { background-color: #2d3a55; }
+html.dark .bg-surface-variant { background-color: #212b40; }
+html.dark .bg-inverse-surface { background-color: #e7ebf6; }
+html.dark .text-inverse-on-surface { color: #121c2a; }
+
+/* translucent surface variants (headers, panels) */
+html.dark [class*="bg-surface-container-lowest/"] { background-color: rgba(22, 28, 44, .92); }
+html.dark [class*="bg-surface-container-low/"] { background-color: rgba(27, 35, 52, .85); }
+html.dark [class*="bg-surface-container-high/"] { background-color: rgba(39, 51, 75, .85); }
+html.dark [class*="bg-surface-dim/"] { background-color: rgba(19, 26, 43, .7); }
+
+/* -- tinted chips & containers -- */
+html.dark .bg-primary-fixed { background-color: #2c2552; }
+html.dark [class*="bg-primary-fixed/"] { background-color: rgba(44, 37, 82, .75); }
+html.dark .bg-primary-container { background-color: #5b48d8; }
+html.dark .bg-secondary-fixed { background-color: #1e2c4e; }
+html.dark .bg-secondary-container { background-color: #2c5cc9; }
+html.dark .bg-tertiary-fixed { background-color: #3d2a15; }
+html.dark .bg-tertiary-container { background-color: #8a4d0f; }
+html.dark .bg-error-container { background-color: #45201f; }
+html.dark [class*="bg-error-container/"] { background-color: rgba(69, 32, 31, .6); }
+html.dark .bg-success-soft { background-color: #10301f; }
+html.dark .bg-warning-soft { background-color: #382b10; }
+html.dark .bg-danger-soft { background-color: #45201f; }
+html.dark .bg-info-soft { background-color: #15294a; }
+html.dark .bg-interview-soft { background-color: #2a2452; }
+
+/* -- text -- */
+html.dark .text-on-surface { color: #e7ebf6; }
+html.dark .text-on-surface-variant { color: #a7b0c8; }
+html.dark [class*="text-on-surface-variant/"] { color: #8d97b2; }
+html.dark .text-on-background { color: #e7ebf6; }
+html.dark .text-on-primary-fixed-variant { color: #cabfff; }
+html.dark .text-on-secondary-fixed { color: #bcd0ff; }
+html.dark .text-on-tertiary-fixed { color: #ffcf9e; }
+html.dark .text-on-error-container { color: #ffb4ab; }
+html.dark .text-primary { color: #a99bff; }
+html.dark .text-secondary { color: #8fb2ff; }
+html.dark .text-tertiary { color: #ffb77d; }
+html.dark .text-success { color: #6ee7a8; }
+html.dark .text-warning { color: #ffcd7a; }
+html.dark .text-danger { color: #ffb4ab; }
+html.dark .text-info { color: #8bb8ff; }
+html.dark .text-interview { color: #b9a9ff; }
+
+/* -- borders & dividers -- */
+html.dark .border-outline-variant,
+html.dark [class*="border-outline-variant/"] { border-color: #2c3950; }
+html.dark .border-outline { border-color: #55617d; }
+html.dark .divide-outline-variant > :not([hidden]) ~ :not([hidden]) { border-color: #2c3950; }
+html.dark .divide-y > :not([hidden]) ~ :not([hidden]) { border-color: #2c3950; }
+
+/* -- forms -- */
+html.dark [class*="placeholder:text-on-surface-variant"]::placeholder { color: rgba(167, 176, 200, .55); }
+
+/* -- shadows read better when slightly deeper in dark mode -- */
+html.dark .shadow-pop {
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, .55), 0 0 1px rgba(0, 0, 0, .6);
+}
+
+/* -- public marketing sections -- */
+html.dark .bg-primary\/15,
+html.dark .bg-primary\/25 { background-color: rgba(103, 85, 220, .18); }
+html.dark .bg-secondary\/15,
+html.dark .bg-secondary\/20 { background-color: rgba(0, 84, 203, .18); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}

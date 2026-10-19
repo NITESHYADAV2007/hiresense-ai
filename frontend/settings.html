@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings · HireSense AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236755DC'/><text x='50' y='68' font-size='48' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'>HS</text></svg>" />
+  <script src="/js/theme.js"></script>
+  <script src="/js/tailwind.js"></script>
+  <script src="/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="bg-background font-body text-on-surface-variant antialiased">
+  <div data-page-content>
+    <div>
+      <h1 class="font-headline-lg text-headline-lg text-on-surface">Settings</h1>
+      <p class="mt-1 text-body-md text-on-surface-variant">Manage your profile, preferences, and password.</p>
+    </div>
+
+    <div class="grid gap-5 lg:grid-cols-3">
+      <!-- Profile + preferences -->
+      <div class="space-y-5 lg:col-span-2">
+        <section class="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm" aria-labelledby="profile-title">
+          <h2 id="profile-title" class="font-headline-sm text-headline-sm text-on-surface">Profile</h2>
+          <form id="profile-form" class="mt-4 space-y-4">
+            <div data-field>
+              <label for="display-name" class="mb-1.5 block text-body-md font-semibold text-on-surface">Display name</label>
+              <input id="display-name" name="display_name" type="text" maxlength="120" required
+                     class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3.5 py-2.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                     placeholder="Your name" />
+            </div>
+            <div data-field>
+              <label for="email" class="mb-1.5 block text-body-md font-semibold text-on-surface">Email address</label>
+              <input id="email" name="email" type="email" maxlength="254" required
+                     class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3.5 py-2.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                     placeholder="you@company.com" />
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div data-field>
+                <label for="page-size" class="mb-1.5 block text-body-md font-semibold text-on-surface">Default page size</label>
+                <select id="page-size" name="page_size"
+                        class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3.5 py-2.5 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                  <option value="10">10 per page</option>
+                  <option value="20">20 per page</option>
+                  <option value="25">25 per page</option>
+                  <option value="50">50 per page</option>
+                  <option value="100">100 per page</option>
+                </select>
+              </div>
+              <div data-field>
+                <label for="default-sort" class="mb-1.5 block text-body-md font-semibold text-on-surface">Default sort</label>
+                <select id="default-sort" name="default_sort"
+                        class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3.5 py-2.5 text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                  <option value="score_desc">Highest match</option>
+                  <option value="score_asc">Lowest match</option>
+                  <option value="name">Name A–Z</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit"
+                    class="inline-flex items-center gap-2 rounded-lg bg-primary-container px-5 py-2.5 text-body-md font-semibold text-on-primary shadow-sm hover:bg-primary">
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">save</span> Save profile
+            </button>
+          </form>
+        </section>
+
+        <section class="rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-sm" aria-labelledby="password-title">
+          <h2 id="password-title" class="font-headline-sm text-headline-sm text-on-surface">Change password</h2>
+          <form id="password-form" class="mt-4 space-y-4">
+            <div data-field>
+              <label for="current-password" class="mb-1.5 block text-body-md font-semibold text-on-surface">Current password</label>
+              <input id="current-password" name="current_password" type="password" autocomplete="current-password" required
+                     class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3.5 py-2.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                     placeholder="Enter current password" />
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div data-field>
+                <label for="new-password" class="mb-1.5 block text-body-md font-semibold text-on-surface">New password</label>
+                <input id="new-password" name="new_password" type="password" autocomplete="new-password" required
+                       class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3.5 py-2.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                       placeholder="At least 8 characters" />
+              </div>
+              <div data-field>
+                <label for="confirm-password" class="mb-1.5 block text-body-md font-semibold text-on-surface">Confirm new password</label>
+                <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required
+                       class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3.5 py-2.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                       placeholder="Repeat new password" />
+              </div>
+            </div>
+            <button type="submit"
+                    class="inline-flex items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-5 py-2.5 text-body-md font-semibold text-on-surface hover:bg-surface-container-low">
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">lock</span> Update password
+            </button>
+          </form>
+        </section>
+      </div>
+
+      <!-- Privacy sidebar -->
+      <aside class="space-y-5">
+        <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+          <div class="flex items-center gap-2 text-primary">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">verified_user</span>
+            <h2 class="font-headline-sm text-headline-sm text-on-surface">Privacy & data</h2>
+          </div>
+          <div id="privacy-info" class="mt-4 space-y-4 text-body-md leading-6 text-on-surface-variant"></div>
+        </div>
+
+        <div class="rounded-xl border border-outline-variant bg-surface-container-low p-5 shadow-sm">
+          <div class="flex items-center gap-2 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">science</span>
+            <h2 class="font-headline-sm text-headline-sm text-on-surface">About this demo</h2>
+          </div>
+          <p class="mt-2 text-body-md leading-6 text-on-surface-variant">
+            HireSense AI is a demonstration project. Match scores are decision support
+            only and are never used to automatically reject candidates.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script type="module" src="/js/pages/settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Local AI model cache (re-downloaded automatically, ~25 MB)
+.cache/
+
+# Runtime data — never commit these
+instance/
+uploads/
+*.db
+*.db-journal
+*.db-wal
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# Temporary local debug scripts / files
+browser-*.mjs
+tmp-*.mjs
+tmp-*.png
+tmp-test-resume.pdf

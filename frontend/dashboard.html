@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recruitment Overview · HireSense AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236755DC'/><text x='50' y='68' font-size='48' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'>HS</text></svg>" />
+  <script src="/js/theme.js"></script>
+  <script src="/js/tailwind.js"></script>
+  <script src="/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="bg-background font-body text-on-surface-variant antialiased">
+  <div data-page-content>
+    <!-- Header -->
+    <div class="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h1 class="font-headline-lg text-headline-lg text-on-surface">Recruitment Overview</h1>
+        <p class="mt-1 text-body-md text-on-surface-variant" id="today-date"></p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="refresh-btn" type="button"
+                class="inline-flex items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-2.5 text-body-md font-semibold text-on-surface hover:bg-surface-container-low">
+          <span class="material-symbols-outlined text-[18px]" aria-hidden="true">refresh</span>
+          Refresh
+        </button>
+        <a href="/jobs/new"
+           class="inline-flex items-center gap-2 rounded-lg bg-primary-container px-4 py-2.5 text-body-md font-semibold text-on-primary shadow-sm hover:bg-primary">
+          <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
+          Create Job
+        </a>
+      </div>
+    </div>
+
+    <!-- Metric cards -->
+    <div id="metrics" class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm"><div class="hs h-3 w-24"></div><div class="hs mt-3 h-8 w-16"></div></div>
+      <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm"><div class="hs h-3 w-24"></div><div class="hs mt-3 h-8 w-16"></div></div>
+      <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm"><div class="hs h-3 w-24"></div><div class="hs mt-3 h-8 w-16"></div></div>
+      <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm"><div class="hs h-3 w-24"></div><div class="hs mt-3 h-8 w-16"></div></div>
+    </div>
+
+    <!-- Quick actions -->
+    <div id="quick-actions" class="mt-6 flex flex-wrap gap-3"></div>
+
+    <!-- Charts -->
+    <div class="mt-6 grid gap-5 lg:grid-cols-5">
+      <section class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm lg:col-span-3" aria-labelledby="trend-title">
+        <div class="flex items-center justify-between">
+          <h2 id="trend-title" class="font-headline-sm text-headline-sm text-on-surface">Application Trend</h2>
+          <span class="text-body-sm text-on-surface-variant">Last 30 days</span>
+        </div>
+        <div id="trend-chart" class="mt-4"></div>
+      </section>
+      <section class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm lg:col-span-2" aria-labelledby="dist-title">
+        <h2 id="dist-title" class="font-headline-sm text-headline-sm text-on-surface">Application Status Distribution</h2>
+        <div id="status-chart" class="mt-4"></div>
+      </section>
+    </div>
+
+    <!-- Tables -->
+    <div class="mt-6 grid gap-5 xl:grid-cols-5">
+      <section class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-sm xl:col-span-3" aria-labelledby="recent-apps-title">
+        <div class="flex items-center justify-between border-b border-outline-variant px-5 py-4">
+          <h2 id="recent-apps-title" class="font-headline-sm text-headline-sm text-on-surface">Recent Applications</h2>
+          <a href="/candidates" class="text-body-md font-semibold text-primary hover:underline">View all</a>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-body-md">
+            <thead class="border-b border-outline-variant bg-surface-container-low text-label-md uppercase tracking-wide text-on-surface-variant">
+              <tr>
+                <th scope="col" class="px-5 py-3">Candidate</th>
+                <th scope="col" class="px-5 py-3">Job</th>
+                <th scope="col" class="px-5 py-3">Match</th>
+                <th scope="col" class="px-5 py-3">Status</th>
+                <th scope="col" class="px-5 py-3">Applied</th>
+                <th scope="col" class="px-5 py-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="recent-apps-body" class="divide-y divide-outline-variant"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-sm xl:col-span-2" aria-labelledby="recent-jobs-title">
+        <div class="flex items-center justify-between border-b border-outline-variant px-5 py-4">
+          <h2 id="recent-jobs-title" class="font-headline-sm text-headline-sm text-on-surface">Recent Jobs</h2>
+          <a href="/jobs" class="text-body-md font-semibold text-primary hover:underline">View all</a>
+        </div>
+        <ul id="recent-jobs-list" class="divide-y divide-outline-variant"></ul>
+      </section>
+    </div>
+
+    <!-- Getting started empty state -->
+    <div id="getting-started" class="mt-6 hidden rounded-xl border border-dashed border-outline-variant bg-surface-container-lowest p-8">
+      <h2 class="font-headline-sm text-headline-sm text-on-surface">Getting started</h2>
+      <ol class="mt-3 list-decimal space-y-2 pl-5 text-body-md leading-6 text-on-surface-variant">
+        <li>Create your first job opening with a clear description and specific required skills.</li>
+        <li>Candidates discover open roles on the public careers page and apply with a PDF resume.</li>
+        <li>Each application is scored automatically — review the match analysis, then update the candidate's status.</li>
+      </ol>
+      <a href="/jobs/new" class="mt-5 inline-flex items-center gap-2 rounded-lg bg-primary-container px-4 py-2.5 text-body-md font-semibold text-on-primary shadow-sm hover:bg-primary">
+        <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span> Create your first job
+      </a>
+    </div>
+  </div>
+
+  <script type="module" src="/js/pages/dashboard.js"></script>
+</body>
+</html>
