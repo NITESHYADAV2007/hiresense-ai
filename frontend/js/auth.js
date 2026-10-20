@@ -79,8 +79,8 @@ onUnauthorized(() => {
   }
 });
 
-export function getLoginTarget() {
+export function getLoginTarget(fallback = "/dashboard") {
   const next = new URLSearchParams(window.location.search).get("next");
-  if (!next || !next.startsWith("/") || next.startsWith("//")) return "/dashboard";
+  if (!next || !next.startsWith("/") || next.startsWith("//")) return fallback;
   return next;
 }

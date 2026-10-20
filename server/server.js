@@ -39,6 +39,7 @@ const config = {
 const PAGE_ROUTES = {
   "/": "index.html",
   "/login": "login.html",
+  "/signup": "signup.html",
   "/dashboard": "dashboard.html",
   "/jobs": "jobs.html",
   "/jobs/new": "job-form.html",

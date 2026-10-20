@@ -11,6 +11,8 @@ import { requireString, validatePassword } from "../utils/validators.js";
 
 // 10 failed attempts per 15 minutes per (ip, email) key.
 const loginLimiter = new RateLimiter(10, 900);
+// Recruiter self-signup is intentionally limited even when enabled.
+const registerLimiter = new RateLimiter(10, 3600);
 
 // Constant-work comparison target so timing does not reveal whether an email exists.
 const DUMMY_HASH = bcrypt.hashSync("timing-equalizer", 10);
@@ -127,6 +129,15 @@ export function authRoutes(app) {
   app.post("/api/auth/register", (req, res) => {
     if (process.env.ENABLE_REGISTRATION !== "1") {
       return fail(res, "Registration is disabled.", 404);
+    }
+    const [allowed, retryAfter] = registerLimiter.hit(req.ip || "unknown");
+    if (!allowed) {
+      return fail(
+        res,
+        `Too many signup attempts from your network. Try again in about ` +
+          `${Math.floor(retryAfter / 60) || 1} minute(s).`,
+        429
+      );
     }
     if (!isJson(req)) return fail(res, "Request body must be JSON.");
     const data = req.body || {};

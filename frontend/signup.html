@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Account · HireSense AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%236755DC'/><text x='50' y='68' font-size='48' font-weight='800' fill='white' text-anchor='middle' font-family='sans-serif'>HS</text></svg>" />
+  <script src="/js/theme.js"></script>
+  <script src="/js/tailwind.js"></script>
+  <script src="/js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="bg-background font-body text-on-surface-variant antialiased">
+  <div class="flex min-h-screen">
+    <!-- Brand panel -->
+    <div class="relative hidden w-[46%] overflow-hidden bg-inverse-surface lg:flex lg:flex-col lg:justify-between lg:p-12">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-primary/40 blur-3xl"></div>
+        <div class="absolute bottom-0 -right-24 h-[28rem] w-[28rem] rounded-full bg-secondary/30 blur-3xl"></div>
+        <div class="hero-grid absolute inset-0 opacity-20"></div>
+      </div>
+
+      <a href="/" class="relative flex items-center gap-2.5">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-container font-heading text-sm font-extrabold text-on-primary">HS</span>
+        <span class="font-headline-sm text-headline-sm text-white">HireSense AI</span>
+      </a>
+
+      <div class="relative">
+        <h2 class="max-w-md font-headline-lg text-headline-lg leading-snug text-white">
+          One account. Smarter hiring or a faster job search.
+        </h2>
+        <ul class="mt-8 space-y-3.5 text-body-md text-white/80">
+          <li class="flex items-center gap-3">
+            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">work</span></span>
+            Recruiters post roles and manage applicants
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">person_search</span></span>
+            Applicants upload a resume and get ranked matches
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">auto_awesome</span></span>
+            AI scores explain fit before a human decides
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">shield_person</span></span>
+            Separate workspaces keep recruiter data private
+          </li>
+        </ul>
+      </div>
+
+      <div class="relative mt-10 w-fit rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur">
+        <p class="flex items-center gap-1.5 text-label-md text-white/70">
+          <span class="material-symbols-outlined text-[16px]" aria-hidden="true">verified</span>
+          Applicant view
+        </p>
+        <div class="mt-2 flex items-center gap-3">
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-primary-container text-label-md font-bold text-on-primary">AR</span>
+          <div>
+            <p class="text-body-md font-semibold text-white">Ananya Rao</p>
+            <p class="text-label-sm text-white/60">Top match · Frontend Engineer · 86%</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="relative text-body-sm text-white/50">Match scores support decisions — they never replace them.</p>
+    </div>
+
+    <!-- Form panel -->
+    <div class="relative flex w-full flex-col items-center justify-center overflow-hidden px-4 py-10 sm:px-8">
+      <div class="pointer-events-none absolute inset-0 lg:hidden" aria-hidden="true">
+        <div class="absolute -top-24 -right-16 h-64 w-64 rounded-full bg-primary/10 blur-3xl"></div>
+        <div class="absolute -bottom-20 -left-16 h-64 w-64 rounded-full bg-secondary/10 blur-3xl"></div>
+      </div>
+
+      <div class="relative w-full max-w-md">
+        <a href="/" class="mb-8 inline-flex items-center gap-2.5 text-body-md font-semibold text-on-surface-variant hover:text-on-surface lg:hidden">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-container font-heading text-xs font-extrabold text-on-primary">HS</span>
+          HireSense AI
+        </a>
+
+        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-fixed text-on-primary-fixed-variant">
+          <span id="signup-icon" class="material-symbols-outlined text-[24px]" aria-hidden="true">person_add</span>
+        </div>
+        <h1 id="signup-title" class="mt-4 font-headline-lg text-headline-lg text-on-surface">Create your account</h1>
+        <p id="signup-subtitle" class="mt-2 text-body-md text-on-surface-variant">Choose how you will use HireSense AI.</p>
+
+        <div class="mt-6 inline-flex w-full rounded-xl bg-surface-container-low p-1" role="tablist" aria-label="Account type">
+          <button type="button" data-signup-role="recruiter" role="tab" aria-selected="true"
+                  class="flex-1 rounded-lg px-3 py-2 text-body-md font-semibold transition">
+            I'm hiring
+          </button>
+          <button type="button" data-signup-role="applicant" role="tab" aria-selected="false"
+                  class="flex-1 rounded-lg px-3 py-2 text-body-md font-semibold transition">
+            I'm job hunting
+          </button>
+        </div>
+
+        <!-- Recruiter signup -->
+        <div id="recruiter-signup">
+          <div id="recruiter-error" class="mt-5 hidden items-start gap-2 rounded-xl border border-error/30 bg-error-container px-4 py-3 text-body-md font-medium text-on-error-container [&:not(.hidden)]:flex" role="alert"></div>
+
+          <form id="recruiter-form" class="mt-6 space-y-5" novalidate>
+            <div data-field>
+              <label for="recruiter-name" class="mb-1.5 block text-body-md font-semibold text-on-surface">Full name</label>
+              <div class="relative">
+                <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">person</span>
+                <input id="recruiter-name" name="name" type="text" autocomplete="name" required
+                       class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                       placeholder="Your full name" />
+              </div>
+            </div>
+
+            <div data-field>
+              <label for="recruiter-email" class="mb-1.5 block text-body-md font-semibold text-on-surface">Work email</label>
+              <div class="relative">
+                <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">mail</span>
+                <input id="recruiter-email" name="email" type="email" autocomplete="email" required
+                       class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                       placeholder="you@company.com" />
+              </div>
+            </div>
+
+            <div data-field>
+              <label for="recruiter-password" class="mb-1.5 block text-body-md font-semibold text-on-surface">Password</label>
+              <div class="relative">
+                <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">lock</span>
+                <input id="recruiter-password" name="password" type="password" autocomplete="new-password" required minlength="8"
+                       class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                       placeholder="At least 8 characters" />
+              </div>
+            </div>
+
+            <div data-field>
+              <label for="recruiter-confirm" class="mb-1.5 block text-body-md font-semibold text-on-surface">Confirm password</label>
+              <div class="relative">
+                <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">lock_reset</span>
+                <input id="recruiter-confirm" name="confirm_password" type="password" autocomplete="new-password" required
+                       class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                       placeholder="Repeat your password" />
+              </div>
+            </div>
+
+            <button id="recruiter-submit" type="submit"
+                    class="w-full rounded-lg bg-primary-container px-4 py-3.5 text-body-md font-semibold text-on-primary shadow-sm transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-70">
+              Create recruiter account
+            </button>
+          </form>
+        </div>
+
+        <!-- Applicant signup -->
+        <div id="applicant-signup" class="hidden">
+          <div id="applicant-error" class="mt-5 hidden items-start gap-2 rounded-xl border border-error/30 bg-error-container px-4 py-3 text-body-md font-medium text-on-error-container [&:not(.hidden)]:flex" role="alert"></div>
+
+          <form id="applicant-form" class="mt-6 space-y-5" novalidate>
+            <div data-field>
+              <label for="applicant-name" class="mb-1.5 block text-body-md font-semibold text-on-surface">Full name</label>
+              <div class="relative">
+                <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">person</span>
+                <input id="applicant-name" name="name" type="text" autocomplete="name" required
+                       class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                       placeholder="Your full name" />
+              </div>
+            </div>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div data-field>
+                <label for="applicant-email" class="mb-1.5 block text-body-md font-semibold text-on-surface">Email</label>
+                <div class="relative">
+                  <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">mail</span>
+                  <input id="applicant-email" name="email" type="email" autocomplete="email" required
+                         class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                         placeholder="you@email.com" />
+                </div>
+              </div>
+              <div data-field>
+                <label for="applicant-phone" class="mb-1.5 block text-body-md font-semibold text-on-surface">Phone <span class="font-normal text-on-surface-variant">(optional)</span></label>
+                <div class="relative">
+                  <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">call</span>
+                  <input id="applicant-phone" name="phone" type="tel" autocomplete="tel"
+                         class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                         placeholder="+91 98765 43210" />
+                </div>
+              </div>
+            </div>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div data-field>
+                <label for="applicant-password" class="mb-1.5 block text-body-md font-semibold text-on-surface">Password</label>
+                <div class="relative">
+                  <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">lock</span>
+                  <input id="applicant-password" name="password" type="password" autocomplete="new-password" required minlength="8"
+                         class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                         placeholder="At least 8 characters" />
+                </div>
+              </div>
+              <div data-field>
+                <label for="applicant-confirm" class="mb-1.5 block text-body-md font-semibold text-on-surface">Confirm</label>
+                <div class="relative">
+                  <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" aria-hidden="true">lock_reset</span>
+                  <input id="applicant-confirm" name="confirm_password" type="password" autocomplete="new-password" required
+                         class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-3.5 text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                         placeholder="Repeat password" />
+                </div>
+              </div>
+            </div>
+
+            <div data-field>
+              <label for="applicant-resume" class="mb-1.5 block text-body-md font-semibold text-on-surface">Resume <span class="font-normal text-on-surface-variant">(PDF, optional)</span></label>
+              <label for="applicant-resume" class="flex cursor-pointer items-center gap-3 rounded-lg border border-dashed border-outline-variant bg-surface-container-lowest px-4 py-3 text-body-md text-on-surface-variant hover:border-primary hover:text-on-surface">
+                <span class="material-symbols-outlined text-[22px] text-primary" aria-hidden="true">upload_file</span>
+                <span id="resume-label">Choose a PDF resume</span>
+                <input id="applicant-resume" name="resume" type="file" accept=".pdf,application/pdf" class="sr-only" />
+              </label>
+              <p class="mt-1.5 text-body-sm text-on-surface-variant">You can add or replace this later from your profile.</p>
+            </div>
+
+            <button id="applicant-submit" type="submit"
+                    class="w-full rounded-lg bg-primary-container px-4 py-3.5 text-body-md font-semibold text-on-primary shadow-sm transition hover:bg-primary disabled:cursor-not-allowed disabled:opacity-70">
+              Create applicant account
+            </button>
+          </form>
+        </div>
+
+        <p class="mt-8 text-center text-body-md text-on-surface-variant">
+          Already have an account?
+          <a id="signin-link" href="/login?role=recruiter" class="font-semibold text-primary hover:underline">Sign in</a>
+        </p>
+        <p class="mt-2 text-center text-body-sm text-on-surface-variant">
+          Your account is used only for this HireSense AI demo. Match scores are decision support, not automatic decisions.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/pages/signup.js"></script>
+</body>
+</html>

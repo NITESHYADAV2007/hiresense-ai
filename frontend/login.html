@@ -87,10 +87,21 @@
         </a>
 
         <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-fixed text-on-primary-fixed-variant">
-          <span class="material-symbols-outlined text-[24px]" aria-hidden="true">badge</span>
+          <span id="role-icon" class="material-symbols-outlined text-[24px]" aria-hidden="true">badge</span>
         </div>
-        <h1 class="mt-4 font-headline-lg text-headline-lg text-on-surface">Sign in to your workspace</h1>
-        <p class="mt-2 text-body-md text-on-surface-variant">Welcome back. Enter your recruiter credentials below.</p>
+        <h1 id="login-title" class="mt-4 font-headline-lg text-headline-lg text-on-surface">Sign in to your workspace</h1>
+        <p id="login-subtitle" class="mt-2 text-body-md text-on-surface-variant">Welcome back. Enter your recruiter credentials below.</p>
+
+        <div class="mt-6 inline-flex w-full rounded-xl bg-surface-container-low p-1" role="tablist" aria-label="Account type">
+          <button type="button" data-login-role="recruiter" role="tab" aria-selected="true"
+                  class="flex-1 rounded-lg px-3 py-2 text-body-md font-semibold transition">
+            Recruiter
+          </button>
+          <button type="button" data-login-role="applicant" role="tab" aria-selected="false"
+                  class="flex-1 rounded-lg px-3 py-2 text-body-md font-semibold transition">
+            Applicant
+          </button>
+        </div>
 
         <div id="form-error" class="mt-5 hidden items-start gap-2 rounded-xl border border-error/30 bg-error-container px-4 py-3 text-body-md font-medium text-on-error-container [&:not(.hidden)]:flex" role="alert"></div>
 
@@ -140,7 +151,12 @@
         </div>
 
         <p class="mt-8 text-center text-body-md text-on-surface-variant">
-          Looking for a role instead? <a href="/careers" class="font-semibold text-primary hover:underline">Browse open positions</a>
+          <span id="signup-prompt">New to HireSense AI?</span>
+          <a id="signup-link" href="/signup?role=recruiter" class="font-semibold text-primary hover:underline">Create a recruiter account</a>
+        </p>
+        <p class="mt-2 text-center text-body-md text-on-surface-variant">
+          <span id="browse-prompt">Looking for a role instead?</span>
+          <a id="browse-link" href="/careers" class="font-semibold text-primary hover:underline">Browse open positions</a>
         </p>
       </div>
     </div>

@@ -25,16 +25,18 @@ Deployed on Railway; source code on GitHub at
 - Apply in minutes with an opaque confirmation reference
 - Responsive, accessible UI with light/dark themes
 
-**Candidate profile** (passwordless)
+**Candidate accounts**
 
-- Upload a resume once and create a profile
-- See your AI-ranked matches and required-skill overlap
-- Every application submitted with the same email is linked to your profile and
-  appears under **My applications** with its live status
-- Update your details or resume; "Forget on this device" clears the profile cookie
+- Email + password signup and login; resumes and profiles are stored per account
+- Upload a resume once and get AI-ranked job matches with required-skill overlap
+- Every application submitted while signed in (or with the same email) is linked to
+  the account and appears under **My applications** with its live status
+- Update your details or replace your resume; sign out and back in from any device
+- Guest resume matching on the careers page still works without an account
 
 **Recruiter workspace**
 
+- Recruiter self-signup with email + password; each account gets an isolated workspace
 - Dashboard with live metrics, 30-day application trend, and status donut
 - Job management: create, edit, open/close, delete, required-skill tags
 - Candidate pipeline (Applied → Under Review → Shortlisted → Interview → Hired/Rejected)
@@ -81,6 +83,10 @@ Demo recruiter login:
 | ------------------------- | --------------- |
 | `recruiter@hiresense.dev` | `Recruiter@123` |
 
+Applicants can create their own account at **/signup?role=applicant**. Recruiter
+self-signup is available at **/signup?role=recruiter** when
+`ENABLE_REGISTRATION=1` (enabled on the live demo).
+
 ## Scripts
 
 | Command             | What it does                                                  |
@@ -89,7 +95,7 @@ Demo recruiter login:
 | `npm run dev`       | Same, with auto-restart on file changes                       |
 | `npm run seed`      | Create the demo account and the 3 original sample jobs        |
 | `npm run seed:jobs` | Add generated jobs until the database has 100 jobs (idempotent) |
-| `npm run smoke`     | 70-check end-to-end API test (run while the server is up)      |
+| `npm run smoke`     | 84-check end-to-end API test (run while the server is up)      |
 
 ## Environment variables
 
@@ -103,7 +109,7 @@ All optional — defaults work locally.
 | `UPLOAD_FOLDER`         | `uploads/`              | Uploaded resume PDFs                                        |
 | `SESSION_COOKIE_SECURE` | off                     | Set to `1` when serving over HTTPS                          |
 | `TRUST_PROXY`           | off                     | Set to `1` behind Render/most PaaS proxies (correct `req.ip`) |
-| `ENABLE_REGISTRATION`   | off                     | Set to `1` to enable recruiter self-registration            |
+| `ENABLE_REGISTRATION`   | off                     | Set to `1` to enable recruiter self-registration (applicant signup is always on) |
 | `EMBEDDINGS`            | `local`                 | Set to `off` to force the TF-IDF fallback                    |
 | `EMBEDDING_MODEL`       | `Xenova/all-MiniLM-L6-v2` | Swap in another Transformers.js embedding model           |
 
@@ -132,16 +138,26 @@ This is deliberately explainable decision-support, not an auto-hiring system.
 It does not understand context, seniority nuances, or every synonym, and it
 should always be paired with human review.
 
-## Candidate profiles
+## Accounts and privacy
 
-Profiles are **passwordless**: a signed, HTTP-only session cookie stores a
-`candidate_id`. Creating a profile with a resume lets you return to your matches
-and application history on the same browser without a password. This is
-demo-grade identity suitable for a public portfolio project; for a real product
-you would add verified candidate accounts and email ownership checks.
+Applicants create an email + password account. Passwords are hashed with bcrypt
+and the signed, HTTP-only session cookie stores only the `candidate_id`. Resume
+text is used for matching and is never returned by the API; the public profile
+response also strips `password_hash`, storage paths, and resume text.
 
-Applications are linked to a profile only when the application email matches the
-profile email. Recruiters never see the profile cookie.
+Recruiters have a separate account system. Registration is gated by
+`ENABLE_REGISTRATION=1` and rate-limited. Every job, application, dashboard, and
+analytics query is scoped to the signed-in `recruiter_id`, so two recruiter
+accounts cannot see each other's records.
+
+Applications are linked to an account when the candidate is signed in and the
+application email matches the account email. Earlier guest applications with the
+same email are attached on the next login or signup. Recruiters never see the
+candidate session cookie.
+
+For a production system you would add email verification, password reset, and a
+shared rate-limit store; the current implementation is deliberately scoped to a
+single-instance internship demo.
 
 ## Project structure
 
@@ -162,9 +178,9 @@ profile email. Recruiters never see the profile cookie.
 │   │   ├── resume.js          # PDF validation + text extraction
 │   │   └── application.js     # Serializers + match persistence
 │   ├── utils/                 # responses, validators, rate limiting
-│   └── test/smoke.mjs         # 70-check API test
+│   └── test/smoke.mjs         # 84-check API test
 ├── frontend/
-│   ├── *.html                 # Landing, careers, apply, profile, recruiter pages
+│   ├── *.html                 # Landing, signup, login, careers, apply, profile, recruiter pages
 │   ├── css/custom.css         # Theme tokens incl. dark mode
 │   └── js/                    # Pages, layout, UI, charts, command palette
 ├── .nvmrc                     # Node 24 for hosted builds
@@ -184,10 +200,12 @@ Railway) for the server.
 - Project/service: `hiresense-ai`
 - Public URL: <https://hiresense-ai-production-56b9.up.railway.app>
 - Redeploy after changes: `railway up --ci --service hiresense-ai` (run `railway login` first)
-- Environment variables: `SECRET_KEY`, `SESSION_COOKIE_SECURE=1`, `TRUST_PROXY=1`
-- Railway's filesystem is ephemeral unless a volume is attached, so the SQLite
-  database and uploads reset on redeploy/restart; the app re-seeds the 100 jobs
-  on boot.
+- Environment variables: `SECRET_KEY`, `SESSION_COOKIE_SECURE=1`, `TRUST_PROXY=1`,
+  `ENABLE_REGISTRATION=1`, `DATABASE_PATH=/data/hiresense.db`,
+  `UPLOAD_FOLDER=/data/uploads`
+- A Railway volume is mounted at `/data`, so recruiter accounts, applicant accounts,
+  applications, and resume uploads survive redeploys. The first boot creates the
+  database and seeds the 100 demo jobs.
 
 ### 1. Push to GitHub
 

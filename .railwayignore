@@ -1,0 +1,9 @@
+.git
+.cache
+docs
+instance
+uploads
+node_modules
+*.log
+tmp-*
+browser-*

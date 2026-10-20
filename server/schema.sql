@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS candidates (
   name          TEXT NOT NULL,
   email         TEXT NOT NULL,
   phone         TEXT,
+  password_hash TEXT,
   resume_original_filename TEXT,
   resume_storage_path TEXT,
   resume_text   TEXT NOT NULL DEFAULT '',

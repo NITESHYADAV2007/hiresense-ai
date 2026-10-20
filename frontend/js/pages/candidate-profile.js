@@ -1,4 +1,4 @@
-/* Candidate profile: create/update a profile, view AI job matches and applications. */
+/* Candidate account: update the profile, view AI job matches and applications. */
 
 import { api } from "/js/api.js";
 import { mountPublicNav, mountPublicFooter } from "/js/layout.js";
@@ -15,6 +15,7 @@ mountPublicNav({ active: "profile" });
 mountPublicFooter();
 
 const MATCH_PREVIEW = 8;
+const SIGN_IN_URL = "/login?role=applicant&next=%2Fprofile";
 
 const state = {
   candidate: null,
@@ -24,6 +25,7 @@ const state = {
   openJobs: 0,
   editing: false,
   expanded: false,
+  noResume: false,
 };
 
 function initials(name) {
@@ -142,6 +144,17 @@ function renderMatches() {
   const host = qs("#profile-matches");
   if (!host) return;
 
+  if (state.noResume) {
+    host.innerHTML = `<div class="rounded-xl border border-dashed border-outline-variant bg-surface-container-low px-5 py-8 text-center sm:col-span-2">
+      <span class="material-symbols-outlined text-[32px] text-primary" aria-hidden="true">upload_file</span>
+      <p class="mt-2 font-semibold text-on-surface">Add a resume to unlock AI matches</p>
+      <p class="mt-1 text-body-sm text-on-surface-variant">We rank every open role against your experience — no manual searching.</p>
+      <button type="button" data-add-resume class="mt-4 rounded-lg bg-primary-container px-4 py-2 text-body-md font-semibold text-on-primary hover:bg-primary">Upload resume</button>
+    </div>`;
+    qs("#profile-show-all").classList.add("hidden");
+    return;
+  }
+
   if (state.loadingMatches) {
     host.innerHTML = matchSkeletons();
     return;
@@ -184,15 +197,7 @@ function render() {
   }
 
   if (!candidate) {
-    qs("#profile-view").classList.add("hidden");
-    qs("#profile-form-card").classList.remove("hidden");
-    qs("#profile-form-title").textContent = "Create your candidate profile";
-    qs("#profile-form-sub").textContent =
-      "Upload a PDF resume and we'll rank every open job for you.";
-    qs("#profile-cancel").classList.add("hidden");
-    qs("#profile-form").reset();
-    qs("#profile-form-resume-label").textContent = "Choose PDF · max 5 MB";
-    formError("");
+    window.location.href = SIGN_IN_URL;
     return;
   }
 
@@ -205,6 +210,14 @@ function render() {
 
 async function loadMatches() {
   if (!state.candidate) return;
+  state.noResume = !state.candidate.resume_original_filename;
+  if (state.noResume) {
+    state.matches = [];
+    qs("#stat-matches").textContent = "0";
+    qs("#match-engine").textContent = "Add a resume to see AI-ranked roles.";
+    renderMatches();
+    return;
+  }
   state.loadingMatches = true;
   renderMatches();
   try {
@@ -242,7 +255,9 @@ async function loadProfile() {
       state.candidate = null;
       state.applications = [];
       state.matches = [];
-      render();
+      qs("#profile-loading").classList.add("hidden");
+      window.location.href = SIGN_IN_URL;
+      return;
     }
   } catch (err) {
     toast(err.message || "Could not load your profile.", "error");
@@ -265,8 +280,8 @@ qs("#profile-form").addEventListener("submit", async (event) => {
   const file = qs("#profile-form-resume").files && qs("#profile-form-resume").files[0];
 
   formError("");
-  if (!state.candidate && !file) {
-    formError("Choose a PDF resume first.");
+  if (!state.candidate) {
+    window.location.href = SIGN_IN_URL;
     return;
   }
   if (file && !file.name.toLowerCase().endsWith(".pdf")) {
@@ -281,6 +296,7 @@ qs("#profile-form").addEventListener("submit", async (event) => {
   try {
     const body = await api.postForm("/public/candidate/profile", new FormData(form));
     state.candidate = body.data.candidate;
+    state.applications = body.data.applications || state.applications;
     state.editing = false;
     state.expanded = false;
     qs("#profile-loading").classList.add("hidden");
@@ -314,24 +330,31 @@ qs("#profile-show-all").addEventListener("click", () => {
 
 qs("#forget-profile").addEventListener("click", async () => {
   const ok = await confirmDialog({
-    title: "Forget this profile?",
+    title: "Sign out of your applicant account?",
     message:
-      "This removes the profile from this browser. Applications you already submitted stay with the recruiter.",
-    confirmLabel: "Forget profile",
+      "Your profile and applications are kept. You can sign back in with your email and password.",
+    confirmLabel: "Sign out",
     danger: true,
   });
   if (!ok) return;
   try {
     await api.post("/public/candidate/logout", {});
   } catch {
-    /* the local view is cleared either way */
+    /* signing out locally is enough */
   }
   state.candidate = null;
   state.applications = [];
   state.matches = [];
   state.expanded = false;
-  toast("Profile forgotten on this device.", "success");
+  toast("Signed out.", "success");
+  window.location.href = "/login?role=applicant";
+});
+
+qs("#profile-matches").addEventListener("click", (event) => {
+  if (!event.target.closest("[data-add-resume]")) return;
+  state.editing = true;
   render();
+  qs("#profile-form-card").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 loadProfile();

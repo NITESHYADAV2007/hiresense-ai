@@ -53,6 +53,17 @@ function applyMigrations(conn) {
 
   ensureColumn("match_results", "engine", "TEXT NOT NULL DEFAULT 'tfidf'");
   ensureColumn("applications", "candidate_id", "INTEGER REFERENCES candidates(id)");
+  // Applicant accounts use email + password. Legacy passwordless profiles keep
+  // a NULL hash and can claim their account on the next signup.
+  ensureColumn("candidates", "password_hash", "TEXT");
+  try {
+    conn.exec(
+      "CREATE UNIQUE INDEX IF NOT EXISTS idx_candidates_email_nocase ON candidates(email COLLATE NOCASE)"
+    );
+  } catch (err) {
+    // Older databases may contain duplicate emails; signup still checks in code.
+    console.warn(`Could not create candidate email index: ${err.message}`);
+  }
 }
 
 /** Create required folders and apply the schema (idempotent). */

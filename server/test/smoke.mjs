@@ -227,24 +227,28 @@ async function main() {
   );
 
   const candidateEmail = `jane.${Date.now().toString(36)}@example.com`;
+  const candidatePassword = "Candidate@123";
   const profileForm = new FormData();
   profileForm.append("name", "Jane Candidate");
   profileForm.append("email", candidateEmail);
   profileForm.append("phone", "+1 555 010 2030");
+  profileForm.append("password", candidatePassword);
+  profileForm.append("confirm_password", candidatePassword);
   profileForm.append(
     "resume",
     new Blob([RESUME_PDF], { type: "application/pdf" }),
     "jane_resume.pdf"
   );
-  const profile = await call("POST", "/api/public/candidate/profile", { form: profileForm });
+  const profile = await call("POST", "/api/public/candidate/register", { form: profileForm });
   check(
-    "create candidate profile -> 201",
+    "candidate signup -> 201",
     profile.status === 201 && Boolean(profile.body?.data?.candidate?.id)
   );
   check(
-    "candidate response excludes resume text/path",
+    "candidate response excludes resume text/path/password hash",
     profile.body?.data?.candidate?.resume_text === undefined &&
-      profile.body?.data?.candidate?.resume_storage_path === undefined
+      profile.body?.data?.candidate?.resume_storage_path === undefined &&
+      profile.body?.data?.candidate?.password_hash === undefined
   );
 
   const profileMe = await call("GET", "/api/public/candidate/me");
@@ -252,6 +256,15 @@ async function main() {
     "candidate me -> profile",
     profileMe.status === 200 && profileMe.body?.data?.candidate?.email === candidateEmail
   );
+
+  const duplicateForm = new FormData();
+  duplicateForm.append("name", "Jane Duplicate");
+  duplicateForm.append("email", candidateEmail);
+  duplicateForm.append("password", "Candidate@456");
+  const duplicateSignup = await call("POST", "/api/public/candidate/register", {
+    form: duplicateForm,
+  });
+  check("duplicate candidate signup -> 409", duplicateSignup.status === 409);
 
   const candidateMatches = await call("GET", "/api/public/candidate/matches?limit=5");
   check(
@@ -297,6 +310,35 @@ async function main() {
     "profile update without a new resume -> 200",
     profileUpdate.status === 200 &&
       profileUpdate.body?.data?.candidate?.resume_original_filename === "jane_resume.pdf"
+  );
+
+  const candidateLogoutEarly = await call("POST", "/api/public/candidate/logout");
+  check("candidate logout -> 200", candidateLogoutEarly.status === 200);
+  const afterCandidateLogout = await call("GET", "/api/public/candidate/me");
+  check(
+    "candidate me after logout -> null",
+    afterCandidateLogout.status === 200 && afterCandidateLogout.body?.data === null
+  );
+
+  const badCandidateLogin = await call("POST", "/api/public/candidate/login", {
+    json: { email: candidateEmail, password: "wrong-password" },
+  });
+  check("candidate login with bad password -> 401", badCandidateLogin.status === 401);
+
+  const candidateLogin = await call("POST", "/api/public/candidate/login", {
+    json: { email: candidateEmail, password: candidatePassword },
+  });
+  check(
+    "candidate login -> 200",
+    candidateLogin.status === 200 &&
+      candidateLogin.body?.data?.candidate?.email === candidateEmail
+  );
+
+  const matchesAfterLogin = await call("GET", "/api/public/candidate/matches?limit=3");
+  check(
+    "candidate matches after login -> ranked",
+    matchesAfterLogin.status === 200 &&
+      matchesAfterLogin.body?.data?.results?.length === 3
   );
 
   const noResume = new FormData();
@@ -407,6 +449,8 @@ async function main() {
   check("GET /careers/1 -> detail page", careerDetail.status === 200 && String(careerDetail.body).includes("<html"));
   const profilePage = await call("GET", "/profile");
   check("GET /profile -> HTML page", profilePage.status === 200 && String(profilePage.body).includes("<html"));
+  const signupPage = await call("GET", "/signup");
+  check("GET /signup -> HTML page", signupPage.status === 200 && String(signupPage.body).includes("Create your account"));
   const api404 = await call("GET", "/api/nope");
   check("unknown /api -> JSON 404", api404.status === 404 && api404.body?.error === "Resource not found.");
 
@@ -423,6 +467,63 @@ async function main() {
     "candidate after logout -> null",
     candidateAfterLogout.status === 200 && candidateAfterLogout.body?.data === null
   );
+
+  const anonymousUpdate = new FormData();
+  anonymousUpdate.append("name", "Anonymous");
+  anonymousUpdate.append("email", "anonymous@example.com");
+  anonymousUpdate.append("phone", "+1 555 000 0000");
+  const anonymousProfile = await call("POST", "/api/public/candidate/profile", {
+    form: anonymousUpdate,
+  });
+  check("profile update while signed out -> 401", anonymousProfile.status === 401);
+
+  // --- Recruiter self-signup + workspace isolation ---
+  console.log("\nRecruiter signup + isolation");
+  const newRecruiterEmail = `recruiter.${Date.now().toString(36)}@example.com`;
+  const recruiterSignup = await call("POST", "/api/auth/register", {
+    json: {
+      name: "New Recruiter",
+      email: newRecruiterEmail,
+      password: "Recruiter@456",
+    },
+  });
+  check(
+    "recruiter signup -> 201",
+    recruiterSignup.status === 201 && Boolean(recruiterSignup.body?.data?.id)
+  );
+  csrf = recruiterSignup.body?.data?.csrf_token;
+
+  const newRecruiterMe = await call("GET", "/api/auth/me");
+  check(
+    "new recruiter session -> correct account",
+    newRecruiterMe.status === 200 && newRecruiterMe.body?.data?.email === newRecruiterEmail
+  );
+
+  const newRecruiterJobs = await call("GET", "/api/jobs");
+  check(
+    "new recruiter workspace starts empty",
+    newRecruiterJobs.status === 200 &&
+      Array.isArray(newRecruiterJobs.body?.data) &&
+      newRecruiterJobs.body.data.length === 0
+  );
+  const newRecruiterSummary = await call("GET", "/api/dashboard/summary");
+  check(
+    "new recruiter dashboard has no demo data",
+    newRecruiterSummary.status === 200 &&
+      newRecruiterSummary.body?.data?.total_applications === 0
+  );
+
+  const duplicateRecruiter = await call("POST", "/api/auth/register", {
+    json: {
+      name: "New Recruiter",
+      email: newRecruiterEmail,
+      password: "Recruiter@456",
+    },
+  });
+  check("duplicate recruiter signup -> 409", duplicateRecruiter.status === 409);
+
+  const finalLogout = await call("POST", "/api/auth/logout");
+  check("new recruiter logout", finalLogout.status === 200);
 
   console.log(`\n${passed} passed, ${failed} failed`);
   process.exit(failed === 0 ? 0 : 1);

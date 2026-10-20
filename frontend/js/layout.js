@@ -383,8 +383,8 @@ export function mountPublicNav({ active = "" } = {}) {
           <button type="button" data-public-theme
                   class="rounded-lg p-2 text-on-surface-variant hover:bg-surface-container-low"
                   aria-label="Toggle dark mode" title="Toggle dark mode">${icon("DarkMode", { className: "text-[22px]" })}</button>
-          <a href="/login" class="hidden rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-2 text-body-md font-semibold text-on-surface hover:bg-surface-container-low sm:inline-flex">Recruiter login</a>
-          <a href="/careers" class="rounded-lg bg-primary-container px-4 py-2 text-body-md font-semibold text-on-primary shadow-sm hover:bg-primary">Get started</a>
+          <a href="/login" class="hidden rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-2 text-body-md font-semibold text-on-surface hover:bg-surface-container-low sm:inline-flex">Sign in</a>
+          <a href="/signup" class="rounded-lg bg-primary-container px-4 py-2 text-body-md font-semibold text-on-primary shadow-sm hover:bg-primary">Get started</a>
           <button type="button" data-nav-toggle class="rounded-lg p-2 text-on-surface-variant hover:bg-surface-container-low md:hidden" aria-label="Toggle menu" aria-expanded="false">
             ${icon("Menu", { className: "text-[22px]" })}
           </button>
@@ -397,7 +397,8 @@ export function mountPublicNav({ active = "" } = {}) {
               (link) => `<a href="${link.path}" class="rounded-lg px-3 py-2.5 text-body-md font-semibold text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface">${link.label}</a>`
             )
             .join("")}
-          <a href="/login" class="rounded-lg px-3 py-2.5 text-body-md font-semibold text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface">Recruiter login</a>
+          <a href="/login" class="rounded-lg px-3 py-2.5 text-body-md font-semibold text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface">Sign in</a>
+          <a href="/signup" class="rounded-lg bg-primary-container px-3 py-2.5 text-center text-body-md font-semibold text-on-primary">Create account</a>
         </nav>
       </div>
     </header>`;
@@ -452,6 +453,8 @@ export function mountPublicFooter() {
           <ul class="mt-3 space-y-2 text-body-md text-on-surface-variant">
             <li><a href="/#features" class="hover:text-on-surface">Features</a></li>
             <li><a href="/careers" class="hover:text-on-surface">Open roles</a></li>
+            <li><a href="/login" class="hover:text-on-surface">Sign in</a></li>
+            <li><a href="/signup" class="hover:text-on-surface">Create account</a></li>
           </ul>
         </div>
         <div>
